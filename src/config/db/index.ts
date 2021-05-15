@@ -1,7 +1,7 @@
-import connect from './connect';
-import models from './schemas';
+import connect from "./connect";
+const Tools = require("./schemas/tools");
 
 export = {
   connect,
-  ...models
+  Tools,
 };

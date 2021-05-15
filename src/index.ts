@@ -4,18 +4,16 @@ import {
   errorMiddleware,
   notFoundMiddleware,
 } from "./middlewares/error.middleware";
-import connect from './config/db/connect';
+import connect from "./config/db/connect";
 
 import { CONFIG } from "./config";
 import routes from "./routes";
 
 (async () => {
-
   const app = express();
   connect(process.env.DB_HOST);
 
-  console.log(connect(process.env.DB_HOST))
-  app.get(`/${CONFIG.apiVersion}/healths`, (_, res) =>
+  app.get('/healths', (_, res) =>
     res.send({
       status: "UP",
       version: CONFIG.apiVersion,
@@ -24,10 +22,10 @@ import routes from "./routes";
 
   app.use(
     cors(),
-    express.json()
+    express.json(),
+    routes
   );
 
-  app.use(`/${CONFIG.apiVersion}`, routes);
   app.use(errorMiddleware);
   app.all("*", notFoundMiddleware);
 
