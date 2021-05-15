@@ -1,0 +1,13 @@
+{
+  "watch": ["src"],
+  "ext": "ts",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "ts-node ./src/index.ts",
+  "env": {
+    "NODE_ENV": "Development",
+    "DB_HOST": "mongodb://localhost:27017/vuttr",
+    "PORT": "3000",
+    "SECRET": "SUpeRSeCrETa963",
+    "REFRESH_SECRET": "rEfrESh_SUpeRSeCrETa963"
+  }
+}
