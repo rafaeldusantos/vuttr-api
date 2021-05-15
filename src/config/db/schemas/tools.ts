@@ -1,12 +1,12 @@
-import database from 'mongoose';
+import database from "mongoose";
 
 const stringRequired = { type: String, require: true };
 
 const schema = new database.Schema({
   title: stringRequired,
   link: stringRequired,
-  "description": String,
-  tags: [ String ]
+  description: String,
+  tags: [String],
 });
 
-export default database.model('Tools', schema);
+export default database.model("Tools", schema);

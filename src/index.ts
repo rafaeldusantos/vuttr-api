@@ -13,18 +13,14 @@ import routes from "./routes";
   const app = express();
   connect(process.env.DB_HOST);
 
-  app.get('/healths', (_, res) =>
+  app.get("/healths", (_, res) =>
     res.send({
       status: "UP",
       version: CONFIG.apiVersion,
     })
   );
 
-  app.use(
-    cors(),
-    express.json(),
-    routes
-  );
+  app.use(cors(), express.json(), routes);
 
   app.use(errorMiddleware);
   app.all("*", notFoundMiddleware);

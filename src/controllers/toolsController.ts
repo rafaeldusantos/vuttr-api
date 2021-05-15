@@ -3,8 +3,17 @@ import httpStatus from "http-status";
 import { errorHandler } from "../utils/ErrorHandler";
 import HttpException from "../utils/HttpException";
 import validatePayload from "../utils/ValidatePayload";
-import { createTools, findById, listTools, removeById } from "../repositories/tools.repository";
-import { IPostToolsRequest, IToolsRequestQuery, schemaPostToolsRequest } from "../models/tools.model";
+import {
+  createTools,
+  findById,
+  listTools,
+  removeById,
+} from "../repositories/tools.repository";
+import {
+  IPostToolsRequest,
+  IToolsRequestQuery,
+  schemaPostToolsRequest,
+} from "../models/tools.model";
 import { NEW_ENTRY_ERRORS } from "../models/error.model";
 import { Types } from "mongoose";
 
@@ -14,15 +23,12 @@ export const getTools = async (
   next: NextFunction
 ) => {
   try {
-    
     const filter: IToolsRequestQuery = req.query;
     const result = await listTools(filter);
 
-    res.status(
-      result.length
-        ? httpStatus.OK
-        : httpStatus.NO_CONTENT
-    ).json(result);
+    res
+      .status(result.length ? httpStatus.OK : httpStatus.NO_CONTENT)
+      .json(result);
   } catch (error) {
     return next(errorHandler("getTransactions", error));
   }
@@ -37,10 +43,7 @@ export const postTools = async (
   const bodyReq: IPostToolsRequest = body;
 
   try {
-    const errorValidate = validatePayload(
-      bodyReq,
-      schemaPostToolsRequest
-    );
+    const errorValidate = validatePayload(bodyReq, schemaPostToolsRequest);
     if (errorValidate) {
       throw new HttpException(
         httpStatus.UNPROCESSABLE_ENTITY,
@@ -49,7 +52,7 @@ export const postTools = async (
     }
 
     const data = await createTools(bodyReq);
-    
+
     res.status(httpStatus.CREATED).json(data);
   } catch (error) {
     return next(errorHandler("getTransactions", error));
@@ -63,7 +66,6 @@ export const deleteTools = async (
 ) => {
   const { id } = req.params;
   try {
-    
     if (!Types.ObjectId.isValid(id)) {
       throw new HttpException(
         httpStatus.UNPROCESSABLE_ENTITY,
@@ -85,7 +87,7 @@ export const deleteTools = async (
 
     res.status(httpStatus.NO_CONTENT).json();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return next(errorHandler("deleteTools", error));
   }
-}
+};
