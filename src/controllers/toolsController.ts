@@ -27,7 +27,7 @@ export const getTools = async (
     const result = await listTools(filter);
 
     res
-      .status(result.length ? httpStatus.OK : httpStatus.NO_CONTENT)
+      .status(httpStatus.OK)
       .json(result);
   } catch (error) {
     return next(errorHandler("getTransactions", error));
