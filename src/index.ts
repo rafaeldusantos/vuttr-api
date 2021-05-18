@@ -12,6 +12,7 @@ import * as swaggerDocument from "../swagger.json";
 
 (async () => {
   const app = express();
+  console.log('DB_HOST', process.env.DB_HOST)
   connect(process.env.DB_HOST);
 
   app.get("/healths", (_, res) =>
