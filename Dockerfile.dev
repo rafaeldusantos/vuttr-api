@@ -1,14 +1,12 @@
 FROM node:10.15.3
-ARG YII_ENVIRONMENT
-ENV environment=${YII_ENVIRONMENT}
-ENV PATH=$PATH:$LD_LIBRARY_PATH
 EXPOSE ${PORT}
 RUN mkdir -p /app
 WORKDIR /app
 COPY nodemon.json .
 COPY package.json .
+COPY swagger.json .
+COPY tsconfig.json .
 COPY ./src ./src/
-COPY index.js .
 RUN rm -rf node_modules && npm cache clean --force
 RUN npm install --loglevel verbose
-CMD ["sh", "-c", "npm start:dev"]
+CMD ["npm", "start"]
