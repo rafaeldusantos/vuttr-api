@@ -8,7 +8,7 @@
       "email": "rafael@aproximma.com.br"
     }
   },
-  "host": "https://aproximma-vuttr-api.herokuapp.com",
+  "host": "aproximma-vuttr-api.herokuapp.com",
   "tags": [
     {
       "name": "tools",
