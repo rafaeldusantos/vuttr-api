@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "API VUTT - teste BossaBox",
   "scripts": {
-    "start": "echo \"== DO NOT USE START SCRIPT FOR PRODUCTION ==\" && nodemon",
+    "start": "ts-node ./src/index.ts",
     "start:dev": "echo \"== DO NOT USE START SCRIPT FOR PRODUCTION ==\" && nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "tslint --fix --project ./",

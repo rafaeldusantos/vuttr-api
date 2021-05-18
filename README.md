@@ -14,8 +14,26 @@ API desenvolvido para o challenge da Bossabox. Aplicação baseia-se em um CRUD 
 * Adicionar uma nova ferramenta
 * Remover uma ferramenta
 
-## Instalando e iniciando a aplicação
+## Rotas
 
+* Listagem de Ferramentas
+* Consulta de ferramentas por TAG
+* Adicionar uma nova ferramenta
+* Remover uma ferramenta
+
+## Rotas
+
+Rotas disponiveis na API:
+
+* `GET /tools` : lista as todas as ferramentas cadastradas
+* `POST /tools` : registra uma nova ferramenta
+* `DELETE /tools/:id` : deleta a ferramenta pelo ID
+
+Filtro de ferramentas?
+* usar  `GET /tools?s=:string` para filtrar por todos os campos (Título, descrição ou tag);
+* usar `GET /tools?tag=:string` para filtrar ferramentas pela **tag**.
+
+## Instalando e iniciando a aplicação
 
 No diretório do projeto, você pode executar os comandos para baixar as dependências do projeto e inicializa-la.
 
@@ -32,22 +50,24 @@ cd vuttr-api
 
 Instalar as depências e iniciar a aplicação
 
->Node
+>com NPM
 ```sh
 $ npm i
 $ npm start:dev
 ```
-> API disponivel na URL `http:\\localhost:3000`
+
+>com DOCKER
+```sh
+$ docker-compose up --build
+```
+
+
+API disponivel na URL `http:\\localhost:3000`
 
 ## Rodar os testes
 
 
-Testes unitários
+Para rodar os testes unitários usar o comando:
 ```sh
 $ npm run test:unit
-```
-
-Testes integrados
-```sh
-$ npm run test:integration
 ```
