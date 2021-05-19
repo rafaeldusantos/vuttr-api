@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
+import Joi from "joi";
 import { errorHandler } from "../utils/ErrorHandler";
 import HttpException from "../utils/HttpException";
 import validatePayload from "../utils/ValidatePayload";
@@ -12,10 +13,17 @@ import {
 import {
   IPostToolsRequest,
   IToolsRequestQuery,
-  schemaPostToolsRequest,
-} from "../models/tools.model";
-import { NEW_ENTRY_ERRORS } from "../models/error.model";
+} from "../interfaces/tools.interface";
+import { NEW_ENTRY_ERRORS } from "../enums";
 import { Types } from "mongoose";
+
+const schemaPostToolsRequest = Joi.object({
+  title: Joi.string().required(),
+  link: Joi.string().uri().required(),
+  description: Joi.string(),
+  tags: Joi.array().items(Joi.string()).required(),
+});
+
 
 export const getTools = async (
   req: Request,
@@ -39,8 +47,7 @@ export const postTools = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { body } = req;
-  const bodyReq: IPostToolsRequest = body;
+  const bodyReq: IPostToolsRequest = req.body;
 
   try {
     const errorValidate = validatePayload(bodyReq, schemaPostToolsRequest);

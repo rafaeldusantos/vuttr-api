@@ -1,5 +1,8 @@
-import { IPostToolsRequest, IToolsRequestQuery } from "../models/tools.model";
-import Tools from "../config/db/schemas/tools";
+import {
+  IPostToolsRequest,
+  IToolsRequestQuery
+} from "../interfaces/tools.interface";
+import Tools from "../config/db/models/tools.model";
 import { Types } from "mongoose";
 
 export const listTools = (request: IToolsRequestQuery) => {

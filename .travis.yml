@@ -8,7 +8,7 @@ script:
   - "npm run prettify"
 branches:
   only:
-    - build
+    - master
 deploy:
   app: vuttr-api
   provider: heroku
