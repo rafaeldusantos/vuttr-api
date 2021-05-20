@@ -13,6 +13,10 @@
     {
       "name": "tools",
       "description": "Information about the Tools"
+    },
+    {
+      "name": "auth",
+      "description": "Login e registration"
     }
   ],
   "schemes": [
@@ -26,6 +30,7 @@
           "tools"
         ],
         "summary": "Returns a list of tools.",
+        "security": [],
         "parameters": [
           {
             "in": "query",
@@ -63,6 +68,7 @@
           "tools"
         ],
         "summary": "Register a tool.",
+        "security": [],
         "consumes": [
           "application/json"
         ],
@@ -102,6 +108,7 @@
           "tools"
         ],
         "summary": "Remove a tool.",
+        "security": [],
         "consumes": [
           "application/json"
         ],
@@ -129,9 +136,113 @@
           }
         }
       }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logs in and returns the authentication cookie",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "A JSON object containing the email and password.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Ilogin"
+            }
+          }
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/RegisterResponse"
+            },
+            "description": "Successfully authenticated. The JWT is returned in a cookie named `Authorization`. You need to include this cookie in subsequent requests.\n",
+            "headers": {
+              "Cookie": {
+                "schema": {
+                  "type": "string",
+                  "example": "Authorization=abcde12345; HttpOnly"
+                }
+              }
+            }
+          },
+          "401": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "UNAUTHORIZED"
+          },
+          "403": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "FORBIDDEN"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register new user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "A JSON object register user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IUser"
+            }
+          }
+        ],
+        "security": [],
+        "responses": {
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/RegisterResponse"
+            },
+            "description": "Successfully created new User. The JWT is returned in a cookie named `Authorization`. You need to include this cookie in subsequent requests.\n",
+            "headers": {
+              "Cookie": {
+                "schema": {
+                  "type": "string",
+                  "example": "Authorization=abcde12345; HttpOnly"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
+    "ToolsRequest": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "link": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "ToolsResponse": {
       "type": "object",
       "properties": {
@@ -155,23 +266,42 @@
         }
       }
     },
-    "ToolsRequest": {
+    "Ilogin": {
       "type": "object",
       "properties": {
-        "title": {
+        "email": {
           "type": "string"
         },
-        "link": {
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "IUser": {
+      "type": "object",
+      "properties": {
+        "name": {
           "type": "string"
         },
-        "description": {
+        "email": {
           "type": "string"
         },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "RegisterResponse": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
         }
       }
     },

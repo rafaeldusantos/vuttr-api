@@ -30,7 +30,7 @@ import * as swaggerDocument from "../swagger.json";
     routes
   );
   app.use(routes);
-  app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.use(errorMiddleware);
   app.all("*", notFoundMiddleware);
