@@ -1,6 +1,6 @@
 import {
   IPostToolsRequest,
-  IToolsRequestQuery
+  IToolsRequestQuery,
 } from "../interfaces/tools.interface";
 import Tools from "../config/db/models/tools.model";
 import { Types } from "mongoose";

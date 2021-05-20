@@ -24,7 +24,6 @@ const schemaPostToolsRequest = Joi.object({
   tags: Joi.array().items(Joi.string()).required(),
 });
 
-
 export const getTools = async (
   req: Request,
   res: Response,
@@ -34,9 +33,7 @@ export const getTools = async (
     const filter: IToolsRequestQuery = req.query;
     const result = await listTools(filter);
 
-    res
-      .status(httpStatus.OK)
-      .json(result);
+    res.status(httpStatus.OK).json(result);
   } catch (error) {
     return next(errorHandler("getTransactions", error));
   }

@@ -1,6 +1,8 @@
 import cors from "cors";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
+import cookieParser from "cookie-parser";
+
 import {
   errorMiddleware,
   notFoundMiddleware,
@@ -21,9 +23,14 @@ import * as swaggerDocument from "../swagger.json";
     })
   );
 
-  app.use(cors(), express.json(), routes);
-
-  app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+  app.use(
+    cors(),
+    express.json(),
+    cookieParser(),
+    routes
+  );
+  app.use(routes);
+  app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   app.use(errorMiddleware);
   app.all("*", notFoundMiddleware);
