@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { NEW_ENTRY_ERRORS, newEntryErrorsCodes } from "../models/error.model";
+import { NEW_ENTRY_ERRORS, newEntryErrorsCodes } from "../enums";
 
 export function errorHandler(identifier: string, error: any) {
   if (error.response && error.response.data) {
