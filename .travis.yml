@@ -1,4 +1,5 @@
 language: node_js
+os: linux
 node_js:
   - 12.22
 install:
@@ -8,9 +9,10 @@ script:
   - "npm run prettify"
 branches:
   only:
-    - master
+    - build
 deploy:
   app: vuttr-api
   provider: heroku
+  strategy: api
   api_key:
-    secure: 35df0ca5-ec2d-4cc0-b1d4-839d5bb063f3
+    secure: $HEROKU_TOKEN
