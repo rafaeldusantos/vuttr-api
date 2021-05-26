@@ -5,7 +5,9 @@
   "scripts": {
     "start": "ts-node ./src/index.ts",
     "start:dev": "echo \"== DO NOT USE START SCRIPT FOR PRODUCTION ==\" && nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha -r ts-node/register './tests/**/*.test.ts' --timeout 10000 --exit",
+    "test:unit": "mocha -r ts-node/register './tests/unit/*.test.ts' --timeout 10000 --exit",
+    "test:integration": "mocha -r ts-node/register './tests/unit/*.test.ts' --timeout 10000 --exit",
     "lint": "tslint --fix --project ./",
     "prettify": "prettier --write './src/**/*.{js,ts}'"
   },
@@ -14,7 +16,7 @@
     "url": "git+https://github.com/rafaeldusantos/vuttr-api.git"
   },
   "author": "Rafael Duarte",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/rafaeldusantos/vuttr-api/issues"
   },
@@ -50,5 +52,15 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.2.4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/chai": "^4.2.18",
+    "@types/chai-http": "^4.2.0",
+    "@types/mocha": "^8.2.2",
+    "@types/supertest": "^2.0.11",
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.4.0",
+    "mockgoose": "^8.0.4",
+    "supertest": "^6.1.3"
+  }
 }

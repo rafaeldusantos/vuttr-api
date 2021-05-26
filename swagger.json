@@ -170,6 +170,12 @@
               }
             }
           },
+          "400": {
+            "schema": {
+              "$ref": "#/definitions/Error"
+            },
+            "description": "UNAUTHORIZED"
+          },
           "401": {
             "schema": {
               "$ref": "#/definitions/Error"
