@@ -71,3 +71,8 @@ Para rodar os testes unitários usar o comando:
 ```sh
 $ npm run test:unit
 ```
+
+Para rodar os testes de integração usar o comando:
+```sh
+$ npm run test:integration
+```
