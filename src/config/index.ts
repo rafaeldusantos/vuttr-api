@@ -1,4 +1,4 @@
-const isLocalDev = process.env.NODE_ENV !== "production";
+const isLocalDev = process.env.NODE_ENV !== "Production";
 
 export const CONFIG = {
   isLocalDev,
