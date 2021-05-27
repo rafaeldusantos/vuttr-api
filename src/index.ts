@@ -10,10 +10,14 @@ import {
 import { connect } from "./config/db/connect";
 import { CONFIG } from "./config";
 import routes from "./routes";
-import * as swaggerDocument from "../swagger.json";
+import swaggerDocument from "../swagger.json";
 
 
 const app = express();
+
+if (CONFIG.isLocalDev) {
+  swaggerDocument.servers = [{url: `http://localhost:${CONFIG.serverPort}`}]
+}
 
 connect()
   .then(() => console.info("Database Connected"))
@@ -32,6 +36,7 @@ app.use(
   cookieParser(),
   routes
 );
+
 app.use(routes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
