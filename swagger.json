@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "aproximma-vuttr-api.herokuapp.com"
+      "url": "https://aproximma-vuttr-api.herokuapp.com"
     }
   ],
   "tags": [
