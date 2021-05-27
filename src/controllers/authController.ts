@@ -91,5 +91,5 @@ export const logIn = async (
 
 export const logOut = (_: Request, res: Response) => {
   res.setHeader('Set-Cookie', ['Authorization=;Max-age=0']);
-  res.send(200);
+  res.send(httpStatus.NO_CONTENT);
 }

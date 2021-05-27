@@ -2,40 +2,49 @@ import cors from "cors";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import cookieParser from "cookie-parser";
-
+const { setHealthDown, MONGO_DB } = require("apx-health");
 import {
   errorMiddleware,
   notFoundMiddleware,
 } from "./middlewares/error.middleware";
-import connect from "./config/db/connect";
+import { connect } from "./config/db/connect";
 import { CONFIG } from "./config";
 import routes from "./routes";
-import * as swaggerDocument from "../swagger.json";
+import swaggerDocument from "../swagger.json";
 
-(async () => {
-  const app = express();
-  connect(process.env.DB_HOST);
 
-  app.get("/healths", (_, res) =>
-    res.send({
-      status: "UP",
-      version: CONFIG.apiVersion,
-    })
-  );
+const app = express();
 
-  app.use(
-    cors(),
-    express.json(),
-    cookieParser(),
-    routes
-  );
-  app.use(routes);
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+if (CONFIG.isLocalDev) {
+  swaggerDocument.servers = [{url: `http://localhost:${CONFIG.serverPort}`}]
+}
 
-  app.use(errorMiddleware);
-  app.all("*", notFoundMiddleware);
+connect()
+  .then(() => console.info("Database Connected"))
+  .catch(() => setHealthDown(MONGO_DB, "Database connection failed"));;
 
-  app.listen(CONFIG.serverPort, () => {
-    console.info(`Server running on port ${CONFIG.serverPort}`);
-  });
-})();
+app.get("/healths", (_, res) =>
+  res.send({
+    status: "UP",
+    version: CONFIG.apiVersion,
+  })
+);
+
+app.use(
+  cors(),
+  express.json(),
+  cookieParser(),
+  routes
+);
+
+app.use(routes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use(errorMiddleware);
+app.all("*", notFoundMiddleware);
+
+app.listen(CONFIG.serverPort, () => {
+  console.info(`Server running on port ${CONFIG.serverPort}`);
+});
+
+export default app;

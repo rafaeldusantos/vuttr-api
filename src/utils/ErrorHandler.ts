@@ -9,6 +9,5 @@ export function errorHandler(identifier: string, error: any) {
       NEW_ENTRY_ERRORS.GENERIC;
     error.status = httpStatus.INTERNAL_SERVER_ERROR;
   }
-  console.error(identifier, error?.response?.data || error);
   return error;
 }

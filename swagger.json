@@ -1,14 +1,18 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
-    "description": "This is a exemlpo server API BossaBox.",
+    "description": "This is a exemlpo server API BossaBox. UHULL",
     "version": "1.0.0",
     "title": "API teste BossaBox - VUTT",
     "contact": {
       "email": "rafael@aproximma.com.br"
     }
   },
-  "host": "aproximma-vuttr-api.herokuapp.com",
+  "servers": [
+    {
+      "url": "aproximma-vuttr-api.herokuapp.com"
+    }
+  ],
   "tags": [
     {
       "name": "tools",
@@ -18,10 +22,6 @@
       "name": "auth",
       "description": "Login e registration"
     }
-  ],
-  "schemes": [
-    "http",
-    "https"
   ],
   "paths": {
     "/tools": {
@@ -35,30 +35,34 @@
           {
             "in": "query",
             "name": "tag",
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "description": "Full name or part of the tag. Ex: node"
           }
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/ToolsResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ToolsResponse"
+                  }
+                }
               }
             }
           },
           "500": {
             "description": "Error message",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         }
@@ -69,34 +73,36 @@
         ],
         "summary": "Register a tool.",
         "security": [],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Pet object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ToolsRequest"
+        "requestBody": {
+          "description": "Pet object that needs to be added to the store",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ToolsRequest"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
             "description": "CREATED",
-            "schema": {
-              "$ref": "#/definitions/ToolsResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolsResponse"
+                }
+              }
             }
           },
           "422": {
             "description": "Error message",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         }
@@ -109,29 +115,29 @@
         ],
         "summary": "Remove a tool.",
         "security": [],
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "description": "ID (ObjectId) of tool to remove",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "204": {
-            "description": "OK"
+            "description": "NO CONTENT"
           },
           "422": {
             "description": "Error message",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         }
@@ -142,75 +148,105 @@
         "tags": [
           "auth"
         ],
-        "summary": "Logs in and returns the authentication cookie",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "A JSON object containing the email and password.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Ilogin"
+        "summary": "Login and returns the authentication cookie",
+        "requestBody": {
+          "description": "A JSON object containing the email and password.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ilogin"
+              }
             }
           }
-        ],
+        },
         "security": [],
         "responses": {
           "200": {
-            "schema": {
-              "$ref": "#/definitions/RegisterResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
             },
-            "description": "Successfully authenticated. The JWT is returned in a cookie named `Authorization`. You need to include this cookie in subsequent requests.\n",
+            "description": "Successfully authenticated. The JWT is returned in a cookie named `Authorization`. You need to include this cookie in subsequent requests.",
             "headers": {
-              "Cookie": {
+              "Set-Cookie": {
                 "schema": {
                   "type": "string",
-                  "example": "Authorization=abcde12345; HttpOnly"
+                  "example": "Authorization=abcde12345; HttpOnly; Max-Age=3600"
                 }
               }
             }
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "UNAUTHORIZED"
+          },
           "401": {
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             },
             "description": "UNAUTHORIZED"
           },
           "403": {
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             },
             "description": "FORBIDDEN"
           }
         }
       }
     },
-    "/auth/register": {
+    "/auth/registration": {
       "post": {
         "tags": [
           "auth"
         ],
         "summary": "Register new user",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "A JSON object register user",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/IUser"
+        "requestBody": {
+          "description": "A JSON object register user",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IUser"
+              }
             }
           }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
         ],
-        "security": [],
         "responses": {
           "201": {
-            "schema": {
-              "$ref": "#/definitions/RegisterResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
             },
             "description": "Successfully created new User. The JWT is returned in a cookie named `Authorization`. You need to include this cookie in subsequent requests.\n",
             "headers": {
-              "Cookie": {
+              "Set-Cookie": {
                 "schema": {
                   "type": "string",
                   "example": "Authorization=abcde12345; HttpOnly"
@@ -220,99 +256,137 @@
           }
         }
       }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout",
+        "requestBody": {
+          "description": "A JSON object register user",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IUser"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "NO CONTENT"
+          }
+        }
+      }
     }
   },
-  "definitions": {
-    "ToolsRequest": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "link": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
+  "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "Authorization"
+      }
+    },
+    "schemas": {
+      "ToolsRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ToolsResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Ilogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
             "type": "string"
           }
         }
-      }
-    },
-    "ToolsResponse": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "link": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
+      },
+      "IUser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
             "type": "string"
           }
         }
-      }
-    },
-    "Ilogin": {
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
+      },
+      "RegisterResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
         }
-      }
-    },
-    "IUser": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      }
-    },
-    "RegisterResponse": {
-      "type": "object",
-      "properties": {
-        "_id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      }
-    },
-    "Error": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "string"
-        },
-        "message": {
-          "type": "string"
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
         }
       }
     }

@@ -17,7 +17,7 @@ import {
 import { NEW_ENTRY_ERRORS } from "../enums";
 import { Types } from "mongoose";
 
-const schemaPostToolsRequest = Joi.object({
+export const schemaPostToolsRequest = Joi.object({
   title: Joi.string().required(),
   link: Joi.string().uri().required(),
   description: Joi.string(),
